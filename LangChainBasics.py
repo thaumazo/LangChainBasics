@@ -1,6 +1,6 @@
-from dotenv import load_dotenv
+from langchain_openai import OpenAI
 import os
-from langchain.llms import OpenAI
+from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
@@ -16,13 +16,17 @@ def main():
     openai_llm = OpenAI(api_key=api_key)
     
     # The prompt you want to send to the model
-    prompt = "What is the capital of France?"
+    prompt = "Tell me something interesting"
     
-    # Generating a response from the model
-    response = openai_llm(prompt)
-    
-    # Printing the response text
-    print("Response from OpenAI:", response['choices'][0]['text'].strip())
+    # Generating a response from the model using invoke
+    response = openai_llm.invoke(input=prompt)
+
+    # Assuming the response structure is JSON-like and similar to OpenAI's format
+    # Adjust this based on the actual structure of the response
+    try:
+        print("Response from OpenAI:", response)
+    except (TypeError, KeyError):
+        print("Failed to parse response:", response)
 
 if __name__ == "__main__":
     main()
